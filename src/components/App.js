@@ -7,16 +7,29 @@ import ContactsList from './ContatsList/ContatsList';
 import Filter from './Filter/Filter';
 import { Container, TitleMain } from './App.styled';
 import Section from './section/Section';
+const LS_KEY = 'name_id';
 class App extends Component {
   state = {
     contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+      // { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      // { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      // { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      // { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
   };
+  componentDidMount() {
+    const savedState = JSON.parse(localStorage.getItem(LS_KEY));
+    if (savedState) {
+      this.setState({ contacts: savedState });
+    }
+  }
+  componentDidUpdate(_, prevState) {
+    const { contacts } = this.state;
+    if (contacts.length !== prevState.contacts.length) {
+      localStorage.setItem(LS_KEY, JSON.stringify(contacts));
+    }
+  }
   addContact = values => {
     const { name, number } = values;
     const { contacts } = this.state;
