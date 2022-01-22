@@ -52,17 +52,14 @@ class App extends Component {
     }));
   };
   changeFilter = e => {
-    this.setState({ filter: e.currentTarget.value });
+    this.setState({ filter: e.currentTarget.value.toLowerCase() });
   };
   reset = () => {
     this.setState({ filter: '' });
   };
   getVisibleContacts = () => {
     const { filter, contacts } = this.state;
-    const normalizedFilter = filter.toLowerCase();
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizedFilter),
-    );
+    return contacts.filter(({ name }) => name.toLowerCase().includes(filter));
   };
   render() {
     const { filter } = this.state;
